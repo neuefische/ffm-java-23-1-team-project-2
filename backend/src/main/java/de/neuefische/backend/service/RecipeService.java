@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public class RecipeService {
 
-
     public List<Recipe> testList = new ArrayList<>(
             List.of(new Recipe("1", "Nudeln", "5 minuten kochen")
     ));
@@ -20,9 +19,7 @@ public class RecipeService {
     }
 
     public List <Recipe> getAll (){
-        //return recipeRepo.return();
-        return testList;
+        return recipeRepo.findAll();
     }
-
 
 }

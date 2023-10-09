@@ -1,8 +1,6 @@
 package de.neuefische.backend.controller;
 
-
-import de.neuefische.backend.model.Recipe;
-import de.neuefische.backend.repository.RecipeRepo;
+import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,16 +36,27 @@ class RecipeControllerTest {
 
     @DynamicPropertySource
     static void setUrlDynamically(DynamicPropertyRegistry registry) {
-        registry.add("/api/recipes", () -> mockWebServer.url("/").toString());
+        registry.add("http://localhost:8080/api/recipes", () -> mockWebServer.url("/").toString());
     }
-
-    @Autowired
-    RecipeRepo recipeRepo;
 
     @Test
     @DirtiesContext
     void getAllRecipes() throws Exception {
-    recipeRepo.save(new Recipe("1","Nudeln","5 minuten kochen"));
+
+        mockWebServer.enqueue(new MockResponse()
+                .setBody(
+                """
+                       [
+                     {
+                        "id": "1",
+                        "title": "Nudeln",
+                        "description": "5 minuten kochen"
+                     }
+                    ]
+                        """
+                )
+                .addHeader("Content-Type", "application/json")
+        );
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes"))
             .andExpect(status().isOk())

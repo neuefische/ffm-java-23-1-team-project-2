@@ -7,13 +7,9 @@ type RecipeCardProps = {
 export default function RecipeCard(props : RecipeCardProps) {
 
     return (
-
-        <>
-        <h2>
-            {props.recipe.id}
-            {props.recipe.title}
-            {props.recipe.description}
-        </h2>
-        </>
+        <article>
+            <h2>{props.recipe.title}</h2>
+            <p>{props.recipe.description}</p>
+        </article>
     )
 }

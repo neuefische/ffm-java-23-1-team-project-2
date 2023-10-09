@@ -1,6 +1,6 @@
 FROM openjdk:17
 
-EXPOSE 8081
+EXPOSE 8080
 
 ADD backend/target/recipe.jar app.jar
 

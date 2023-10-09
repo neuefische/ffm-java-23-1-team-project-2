@@ -17,7 +17,6 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
-
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo.spring30x</artifactId>
@@ -53,6 +52,7 @@
     </dependencies>
 
     <build>
+        <finalName>recipe</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -1,4 +1,5 @@
 package de.neuefische.backend.service;
+import de.neuefische.backend.model.NewRecipe;
 import de.neuefische.backend.model.Recipe;
 import de.neuefische.backend.repository.RecipeRepo;
 import org.junit.jupiter.api.Test;
@@ -30,4 +31,15 @@ class RecipeServiceTest {
             assertEquals(expected, actual);
 
         }
+
+    @Test
+    void save() {
+
+        Recipe recipe = new Recipe("1","asddsa", "asdoh");
+
+        //WHEN
+        when(recipeRepo.save(recipe)).thenReturn(recipe);
+        //TODO further testing instructions
+
     }
+}

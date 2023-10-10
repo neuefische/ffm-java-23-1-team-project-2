@@ -10,11 +10,12 @@ import AddRecipe from "./components/AddRecipe.tsx";
 export default function App() {
 
     const [recipes, setRecipes] = useState<Recipe[]>()
+    const [recipe, setRecipe] = useState<Recipe>()
     const uri: string = "/api/recipes"
-
+    console.log("Vor useEffect")
     useEffect(() => {
         getAll()
-    }, []);
+    }, [recipe]);
 
     function getAll() {
         axios.get(uri)
@@ -32,7 +33,7 @@ export default function App() {
     return (
         <>
             <Header/>
-            <AddRecipe saveRecipe={saveRecipe}/>
+            <AddRecipe setRecipe={setRecipe} saveRecipe={saveRecipe}/>
             {recipes && <RecipeGallery recipes={recipes}/>}
         </>
     )

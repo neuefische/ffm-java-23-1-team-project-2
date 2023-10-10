@@ -7,7 +7,7 @@ type RecipeGalleryProps = {
 
 export default function RecipeGallery(props: RecipeGalleryProps) {
 
-
+    console.log(props.recipes[0])
     return (
 
         <div className="div_gallery">

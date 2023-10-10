@@ -22,4 +22,8 @@ public class RecipeService {
         return recipeRepo.findAll();
     }
 
+    public Recipe save(Recipe saveRecipe) {
+
+        return recipeRepo.save(saveRecipe);
+    }
 }

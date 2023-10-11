@@ -30,6 +30,7 @@ public class RecipeController {
     @ResponseBody
     @PostMapping
     public Recipe postRecipe(@RequestBody NewRecipe newRecipe){
+        System.out.println("Aufruf von Post");
         if (!newRecipe.title().isEmpty() && !newRecipe.description().isEmpty()){
 
         Recipe saveRecipe = new Recipe(UUID.randomUUID().toString(),newRecipe.title(),newRecipe.description());

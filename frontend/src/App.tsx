@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import RecipeGallery from "./components/RecipeGallery.tsx";
-import Header from "./components/Header.tsx";
+import {Route, Routes} from "react-router-dom";
 import AddRecipe from "./components/AddRecipe.tsx";
 
 
@@ -10,12 +10,10 @@ import AddRecipe from "./components/AddRecipe.tsx";
 export default function App() {
 
     const [recipes, setRecipes] = useState<Recipe[]>()
-    const [recipe, setRecipe] = useState<Recipe>()
     const uri: string = "/api/recipes"
-    console.log("Vor useEffect")
     useEffect(() => {
         getAll()
-    }, [recipe]);
+    }, []);
 
     function getAll() {
         axios.get(uri)
@@ -24,17 +22,14 @@ export default function App() {
             .catch((error) => error.message("error gefunden"))
     }
 
-    function saveRecipe(newRecipe: Recipe){
-        axios.post(uri, newRecipe)
-            .then(response =>setRecipes(response.data))
-            .catch((error) => error.message("error can not save"))
-        }
+
 
     return (
         <>
-            <Header/>
-            <AddRecipe setRecipe={setRecipe} saveRecipe={saveRecipe}/>
-            {recipes && <RecipeGallery recipes={recipes}/>}
+            <Routes>
+                <Route path="/" element={<RecipeGallery recipes={recipes}/>}/>
+                <Route path="/recipes/add" element={<AddRecipe uri={uri} getAll={getAll}/>}/>
+            </Routes>
         </>
     )
 

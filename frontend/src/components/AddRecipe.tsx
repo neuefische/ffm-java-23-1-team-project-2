@@ -1,25 +1,34 @@
 import {ChangeEvent, FormEvent, useState} from "react";
+import Header from "./Header.tsx";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
-type AddRecipeProps ={
-    setRecipe: (recipe: Recipe) => void;
-    saveRecipe: (newRecipe: Recipe) => void;
-
+type AddRecipeProps = {
+    uri: string,
+    getAll: () => void
 }
 
 export default function AddRecipe(props: AddRecipeProps){
 
+    const navigate = useNavigate()
+
     const[title, setTitle] = useState("")
     const[description, setDescription] = useState("")
 
+    function saveRecipe(newRecipe: Recipe){
 
+        axios.post(props.uri, newRecipe)
+        props.getAll()
+
+    }
     function onFormSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault()
         const recipe: Recipe = {
             title: title,
             description: description
         }
-        recipe && props.saveRecipe(recipe)
-        recipe && props.setRecipe(recipe)
+        saveRecipe(recipe)
+        navigate("/")
     }
 
 
@@ -34,6 +43,7 @@ export default function AddRecipe(props: AddRecipeProps){
 
     return(
     <>
+        <Header/>
         <form onSubmit={onFormSubmit}>
             <label>
                 Titel
@@ -47,9 +57,9 @@ export default function AddRecipe(props: AddRecipeProps){
                 Save
             </button>
         </form>
-        <button>
+        <Link to={"/"}>
             Back
-        </button>
+        </Link>
     </>
     )
 }

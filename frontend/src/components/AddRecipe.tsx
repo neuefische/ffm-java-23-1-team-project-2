@@ -18,7 +18,8 @@ export default function AddRecipe(props: AddRecipeProps){
     function saveRecipe(newRecipe: Recipe){
 
         axios.post(props.uri, newRecipe)
-        props.getAll()
+            .then(props.getAll)
+        
 
     }
     function onFormSubmit(event: FormEvent<HTMLFormElement>){

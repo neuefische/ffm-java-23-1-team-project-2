@@ -24,6 +24,13 @@ export default function App() {
             })
     }
 
+    function deleteRecipe (id: string) {
+        axios.delete("/api/recipes/" + id)
+            .then(() => {
+                setRecipes(recipes?.filter((recipes) => recipes.id !==id))
+            })
+    }
+
     return (
         <>
             <Routes>

@@ -10,13 +10,18 @@
 }
 body{
     background-image: url("./assets/todd-quackenbush-x5SRhkFajrA-unsplash.jpeg");
-    background-size: contain;
+    background-size: 100% auto;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 h1{
+    display: flex;
+    justify-content: center;
     margin: 1em;
     background-color: wheat;
+    width: 20em;
+    padding: 0.5em;
 }
 article{
     border: 0.2em solid lime;
@@ -37,6 +42,8 @@ form{
 }
 label{
     margin: 0.5em;
+    color: greenyellow;
+    font-size: larger;
 }
 input{
     margin: 0.5em;

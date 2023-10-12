@@ -4,7 +4,6 @@ import de.neuefische.backend.model.NewRecipe;
 import de.neuefische.backend.model.Recipe;
 import de.neuefische.backend.service.RecipeService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,7 +29,7 @@ public class RecipeController {
     @ResponseBody
     @PostMapping
     public Recipe postRecipe(@RequestBody NewRecipe newRecipe){
-        System.out.println("Aufruf von Post");
+
         if (!newRecipe.title().isEmpty() && !newRecipe.description().isEmpty()){
 
         Recipe saveRecipe = new Recipe(UUID.randomUUID().toString(),newRecipe.title(),newRecipe.description());

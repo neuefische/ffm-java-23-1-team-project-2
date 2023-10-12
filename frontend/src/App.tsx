@@ -19,10 +19,10 @@ export default function App() {
         axios.get(uri)
             .then(response => {setRecipes(response.data)
             })
-            .catch((error) => error.message("error gefunden"))
+            .catch(() => {
+                alert('Fehler: Daten konnten nicht geladen werden. Komm später wieder.')
+            })
     }
-
-
 
     return (
         <>

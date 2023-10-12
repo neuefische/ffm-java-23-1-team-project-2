@@ -8,33 +8,35 @@ type AddRecipeProps = {
     getAll: () => void
 }
 
-export default function AddRecipe(props: AddRecipeProps){
+export default function AddRecipe(props: AddRecipeProps) {
 
     const navigate = useNavigate()
 
-    const[title, setTitle] = useState("")
-    const[description, setDescription] = useState("")
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
 
-    function saveRecipe(newRecipe: Recipe){
+    function saveRecipe(newRecipe: Recipe) {
 
         axios.post(props.uri, newRecipe)
             .then(props.getAll)
-        
-
+            .then(() => navigate("/"))
+            .catch((error) => {
+                alert('Fehler:' + error.response.data)
+                navigate("/recipes/add")
+            })
     }
-    function onFormSubmit(event: FormEvent<HTMLFormElement>){
+
+    function onFormSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         const recipe: Recipe = {
             title: title,
             description: description
         }
         saveRecipe(recipe)
-        navigate("/")
     }
 
 
-
-    function onTitleChange(event: ChangeEvent<HTMLInputElement>){
+    function onTitleChange(event: ChangeEvent<HTMLInputElement>) {
         setTitle(event.target.value)
     }
 
@@ -42,25 +44,25 @@ export default function AddRecipe(props: AddRecipeProps){
         setDescription(event.target.value)
     }
 
-    return(
-    <>
-        <Header/>
-        <form onSubmit={onFormSubmit}>
-            <label>
-                Titel
-            </label>
-            <input name="title" value={title} onChange={onTitleChange}/>
-            <label>
-                Description
-            </label>
-            <input name="description" value={description} onChange={onDescriptionChange}/>
-            <button>
-                Save
-            </button>
-        </form>
-        <Link to={"/"}>
-            Back
-        </Link>
-    </>
+    return (
+        <>
+            <Header/>
+            <form onSubmit={onFormSubmit}>
+                <label>
+                    Titel
+                </label>
+                <input name="title" value={title} onChange={onTitleChange}/>
+                <label>
+                    Description
+                </label>
+                <input name="description" value={description} onChange={onDescriptionChange}/>
+                <button>
+                    Save
+                </button>
+            </form>
+            <Link to={"/"}>
+                Back
+            </Link>
+        </>
     )
 }

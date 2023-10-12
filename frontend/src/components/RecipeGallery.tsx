@@ -12,7 +12,7 @@ export default function RecipeGallery(props: RecipeGalleryProps) {
             <Link to={"/recipes/add"}>
                 New
             </Link>
-            {props.recipes && props.recipes.map(
+            {props.recipes?.map(
                 recipe =>
                     <RecipeCard key={recipe.id} recipe={recipe}/>
             )}

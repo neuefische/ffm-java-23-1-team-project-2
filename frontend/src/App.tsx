@@ -34,7 +34,10 @@ export default function App() {
     return (
         <>
             <Routes>
-                <Route path="/" element={<RecipeGallery recipes={recipes}/>}/>
+                <Route
+                    path="/"
+                       element={
+                    <RecipeGallery recipes={recipes} onDelete={deleteRecipe}/>}/>
                 <Route path="/recipes/add" element={<AddRecipe uri={uri} getAll={getAll}/>}/>
             </Routes>
         </>

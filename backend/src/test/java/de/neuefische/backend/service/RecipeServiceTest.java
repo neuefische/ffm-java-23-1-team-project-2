@@ -1,14 +1,16 @@
 package de.neuefische.backend.service;
-import de.neuefische.backend.model.NewRecipe;
 import de.neuefische.backend.model.Recipe;
 import de.neuefische.backend.repository.RecipeRepo;
 import org.junit.jupiter.api.Test;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 
 class RecipeServiceTest {
 
@@ -18,6 +20,7 @@ class RecipeServiceTest {
 
     @Test
     void getAll() {
+            //GIVEN
             Recipe recipe = new Recipe("1", "asddsa", "asdoh");
 
             List<Recipe> expected = new ArrayList<>(List.of(recipe));
@@ -31,15 +34,20 @@ class RecipeServiceTest {
             assertEquals(expected, actual);
 
         }
-
     @Test
     void save() {
+        //GIVEN
+        Recipe savedRecipe = new Recipe("123", "Test", "Test");
 
-        Recipe recipe = new Recipe("1","asddsa", "asdoh");
+        when(recipeRepo.save(savedRecipe)).thenReturn(savedRecipe);
 
         //WHEN
-        when(recipeRepo.save(recipe)).thenReturn(recipe);
-        //TODO further testing instructions
+        Recipe actual = recipeService.save(savedRecipe);
 
+        //THEN
+        Recipe expected = new Recipe("123", "Test", "Test");
+        verify(recipeRepo).save(savedRecipe);
+
+        assertEquals(expected, actual);
     }
 }

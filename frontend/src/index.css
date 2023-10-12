@@ -8,6 +8,12 @@
     flex-direction: column;
     align-items: center;
 }
+body{
+    background-image: url("./assets/todd-quackenbush-x5SRhkFajrA-unsplash.jpeg");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 h1{
     margin: 1em;
     background-color: wheat;
@@ -24,4 +30,32 @@ article{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+label{
+    margin: 0.5em;
+}
+input{
+    margin: 0.5em;
+}
+textarea{
+    margin: 0.5em;
+    width: 30em;
+    height: 10em;
+}
+button{
+    margin: 0.5em;
+    padding: 0.5em;
+    width: 10em;
+    background: pink;
+}
+a{
+    text-decoration: none;
+    background: aqua;
+    padding: 0.5em;
+    border: 0.2em solid greenyellow;
+    border-radius: 1em;
 }

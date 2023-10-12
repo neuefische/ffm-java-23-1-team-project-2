@@ -40,7 +40,7 @@ export default function AddRecipe(props: AddRecipeProps) {
         setTitle(event.target.value)
     }
 
-    function onDescriptionChange(event: ChangeEvent<HTMLInputElement>) {
+    function onDescriptionChange(event: ChangeEvent<HTMLTextAreaElement>) {
         setDescription(event.target.value)
     }
 
@@ -55,7 +55,7 @@ export default function AddRecipe(props: AddRecipeProps) {
                 <label>
                     Description
                 </label>
-                <input name="description" value={description} onChange={onDescriptionChange}/>
+                <textarea name="description" value={description} onChange={onDescriptionChange}/>
                 <button>
                     Save
                 </button>

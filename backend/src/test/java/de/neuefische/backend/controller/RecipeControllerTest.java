@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.backend.model.Recipe;
 import de.neuefische.backend.repository.RecipeRepo;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -20,6 +24,8 @@ class RecipeControllerTest {
     RecipeRepo recipeRepo;
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DirtiesContext
@@ -38,6 +44,7 @@ class RecipeControllerTest {
                     ]
                     """));
     }
+
     @DirtiesContext
     @Test
     void postRecipe() throws Exception{
@@ -62,4 +69,45 @@ class RecipeControllerTest {
 
 
     }
+
+    @DirtiesContext
+    @Test
+    void expectSuccessfulPost() throws Exception {
+        String actual = mockMvc.perform(
+                        post("/api/recipes")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title":"Test","description":"Test"}
+                                        """)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                          "title": "Test",
+                          "description": "Test"
+                        }
+                        """))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        Recipe actualRecipe = objectMapper.readValue(actual, Recipe.class);
+        assertThat(actualRecipe.id())
+                .isNotBlank();
+    }
+    @DirtiesContext
+    @Test
+    void testPostRecipeWithInvalidData() throws Exception {
+        String invalidNewRecipeJson = "{{" +
+                "                          \"title\": \"Test\"," +
+                "                          \"description\": \"Test\"" +
+                "                        }}";
+         mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/recipes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidNewRecipeJson))
+                .andExpect(status().isBadRequest());
+    }
+
+
 }

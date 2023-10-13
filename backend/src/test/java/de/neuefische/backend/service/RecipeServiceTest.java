@@ -3,10 +3,9 @@ import de.neuefische.backend.model.Recipe;
 import de.neuefische.backend.repository.RecipeRepo;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -50,4 +49,5 @@ class RecipeServiceTest {
 
         assertEquals(expected, actual);
     }
+
 }

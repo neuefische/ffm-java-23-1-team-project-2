@@ -8,8 +8,7 @@ type RecipeCardProps = {
 export default function RecipeCard(props : RecipeCardProps) {
 
     const onHandleDelete = (id: string) => {
-
-        id && props.onDelete(id);
+        props.onDelete(id);
     };
 
     return (

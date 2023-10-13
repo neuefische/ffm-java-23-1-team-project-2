@@ -7,18 +7,14 @@ type RecipeGalleryProps = {
     onDelete: (id: string) => void;
 }
 export default function RecipeGallery(props: RecipeGalleryProps) {
-    const handleDelete = (id: string) => {
 
-        props.onDelete(id);
-    };
     return (
         <div className="div_gallery">
             <Header/>
             <Link to={"/recipes/add"}>New</Link>
             {props.recipes?.map((recipe) => (
                 <div key={recipe.id}>
-                    <RecipeCard recipe={recipe}/>
-                    <button onClick={() => recipe.id && handleDelete(recipe.id)}>Delete</button>
+                    <RecipeCard onDelete={props.onDelete} recipe={recipe}/>
                 </div>
             ))}
         </div>

@@ -23,5 +23,5 @@ public class RecipeService {
         return recipeRepo.save(saveRecipe);
     }
 
-    public void delete(String id) { recipeRepo.deleteById(id);}
+    public void deleteRecipeById(String id) { recipeRepo.deleteById(id);}
 }

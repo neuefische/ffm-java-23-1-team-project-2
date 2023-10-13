@@ -3,10 +3,8 @@ import de.neuefische.backend.model.Recipe;
 import de.neuefische.backend.repository.RecipeRepo;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,7 +33,7 @@ class RecipeServiceTest {
 
         }
     @Test
-    void save() {
+    void saveRecipe() {
         //GIVEN
         Recipe savedRecipe = new Recipe("123", "Test", "Test");
 
@@ -50,4 +48,16 @@ class RecipeServiceTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void deleteRecipeById() {
+        //GIVEN
+        String id = "1648441351516816350";
+
+        //WHEN
+        recipeService.delete(id);
+        //THEN
+        verify(recipeRepo).deleteById(id);
+    }
+
 }

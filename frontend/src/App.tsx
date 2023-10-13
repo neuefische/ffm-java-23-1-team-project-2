@@ -24,11 +24,19 @@ export default function App() {
             })
     }
 
+    function deleteRecipe (id: string) {
+        axios.delete("/api/recipes/" + id)
+            .then(() => {
+                setRecipes(recipes?.filter((recipes) => recipes.id !==id))
+            })
+    }
+
     return (
         <>
             <Routes>
-                <Route path="/" element={<RecipeGallery recipes={recipes}/>}/>
+                <Route path="/" element={<RecipeGallery recipes={recipes} onDelete={deleteRecipe}/>}/>
                 <Route path="/recipes/add" element={<AddRecipe uri={uri} getAll={getAll}/>}/>
+                <Route path="/*" element={<RecipeGallery recipes={recipes} onDelete={deleteRecipe}/>}/>
             </Routes>
         </>
     )

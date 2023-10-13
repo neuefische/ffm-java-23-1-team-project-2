@@ -12,7 +12,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -48,10 +51,9 @@ class RecipeControllerTest {
     @DirtiesContext
     @Test
     void postRecipe() throws Exception{
-
         mockMvc.perform(MockMvcRequestBuilders.post("/api/recipes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
                      {
                         "title": "Nudeln",
                         "description": "5 minuten kochen"
@@ -69,6 +71,26 @@ class RecipeControllerTest {
 
 
     }
+    @DirtiesContext
+    @Test
+    void testPostRecipeWithInvalidData() throws Exception {
+        //GIVEN
+        recipeRepo.save(new Recipe("1", "Nudeln", "5 minuten kochen"));
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/recipes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "title":"",
+                                "description": ""
+                                }
+                                """)
+                )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("Du Pfeife musst was eingeben!"));
+    }
+
 
     @DirtiesContext
     @Test
@@ -95,19 +117,19 @@ class RecipeControllerTest {
         assertThat(actualRecipe.id())
                 .isNotBlank();
     }
+
     @DirtiesContext
     @Test
-    void testPostRecipeWithInvalidData() throws Exception {
-        String invalidNewRecipeJson = "{{" +
-                "                          \"title\": \"Test\"," +
-                "                          \"description\": \"Test\"" +
-                "                        }}";
-         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/recipes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidNewRecipeJson))
-                .andExpect(status().isBadRequest());
+    void deleteRecipeById() throws Exception {
+        //GIVEN
+        recipeRepo.save(new Recipe("1", "Test", "Test"));
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/recipes/1")
+                        )
+        //THEN
+        .andExpect(status().isOk())
+        .andExpect(content().string(""));
+
     }
-
-
 }

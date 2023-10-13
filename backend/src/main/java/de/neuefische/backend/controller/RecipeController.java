@@ -34,4 +34,8 @@ public class RecipeController {
             return ResponseEntity.badRequest().body("Du Pfeife musst was eingeben!");
         }
     }
+    @DeleteMapping("{id}")
+    void delete(@PathVariable String id){
+        recipeService.delete(id);
+    }
 }

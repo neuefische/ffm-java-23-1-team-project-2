@@ -15,8 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -33,9 +32,11 @@ class RecipeControllerTest {
     @Test
     @DirtiesContext
     void getAllRecipes() throws Exception {
+        //GIVEN
         recipeRepo.save(new Recipe("1", "Nudeln", "5 minuten kochen"));
-
+        //WHEN
         mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes"))
+            //THEN
             .andExpect(status().isOk())
             .andExpect(content().json("""
                     [
@@ -51,6 +52,7 @@ class RecipeControllerTest {
     @DirtiesContext
     @Test
     void postRecipe() throws Exception{
+        //WHEN
         mockMvc.perform(MockMvcRequestBuilders.post("/api/recipes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -59,6 +61,7 @@ class RecipeControllerTest {
                         "description": "5 minuten kochen"
                      }
                     """))
+        //THEN
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                      {
@@ -87,6 +90,7 @@ class RecipeControllerTest {
                                 }
                                 """)
                 )
+                //THEN
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string("Du Pfeife musst was eingeben!"));
     }
@@ -95,20 +99,24 @@ class RecipeControllerTest {
     @DirtiesContext
     @Test
     void expectSuccessfulPost() throws Exception {
+        //WHEN
         String actual = mockMvc.perform(
                         post("/api/recipes")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("""
-                                        {"title":"Test","description":"Test"}
-                                        """)
-                )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                        {
+                                        "title":"Test",
+                                        "description":"Test"}
+                                 """)
+                                        )
+        //THEN
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                        {
-                          "title": "Test",
-                          "description": "Test"
-                        }
-                        """))
+                                        {
+                                           "title": "Test",
+                                           "description": "Test"
+                                        }
+                                  """))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -117,6 +125,65 @@ class RecipeControllerTest {
         assertThat(actualRecipe.id())
                 .isNotBlank();
     }
+    @Test
+    @DirtiesContext
+    void findRecipeById() throws Exception {
+        //GIVEN
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/recipes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "title": "Test",
+                                "description": "Test"
+                                }
+                                """)
+                )
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        Recipe response = objectMapper.readValue(body, Recipe.class);
+
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes/" + response.id()))
+
+                //THEN
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                         "title": "Test",
+                         "description": "Test"
+                        }
+                        """))
+                .andExpect(jsonPath("$.id").isNotEmpty());
+    }
+
+
+    @Test
+    @DirtiesContext
+    void updateRecipeById() throws Exception {
+        //GIVEN
+        recipeRepo.save(new Recipe("1", "Test","Test"));
+        //WHEN
+        mockMvc.perform(put("/api/recipes/1")
+                  .contentType(MediaType.APPLICATION_JSON)
+                   .content("""
+                            {
+                            "title":"Test",
+                            "description":"Test"}
+                            """))
+        //THEN
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                            {
+                            "title": "Test",
+                            "description": "Test"
+                            }
+                            """))
+                .andExpect(jsonPath("$.id").isNotEmpty());
+    }
+
 
     @DirtiesContext
     @Test

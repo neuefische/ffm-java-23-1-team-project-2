@@ -4,6 +4,7 @@ import axios from "axios";
 import RecipeGallery from "./components/RecipeGallery.tsx";
 import {Route, Routes} from "react-router-dom";
 import AddRecipe from "./components/AddRecipe.tsx";
+import EditRecipe from "./components/EditRecipe.tsx";
 
 
 
@@ -35,6 +36,7 @@ export default function App() {
         <>
             <Routes>
                 <Route path="/" element={<RecipeGallery recipes={recipes} onDelete={deleteRecipe}/>}/>
+                {/*<Route path="/recipe/:id/edit" element={<EditRecipe recipes={}/>}/>*/}
                 <Route path="/recipes/add" element={<AddRecipe uri={uri} getAll={getAll}/>}/>
                 <Route path="/*" element={<RecipeGallery recipes={recipes} onDelete={deleteRecipe}/>}/>
             </Routes>

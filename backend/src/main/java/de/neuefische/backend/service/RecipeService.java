@@ -29,9 +29,9 @@ public class RecipeService {
         return recipeRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Recipe with id: " + id + " not found"));
     }
 
-    public Recipe updateRecipe(String id, NewRecipe newRecipe) {
-        Recipe updateTodo = new Recipe(id, newRecipe.title(), newRecipe.description());
-        return recipeRepo.save(updateTodo);
+    public Recipe updateRecipe(String id, Recipe recipe) {
+        Recipe updateRecipe = new Recipe(id, recipe.title(), recipe.description());
+        return recipeRepo.save(updateRecipe);
     }
 
     public void delete(String id) { recipeRepo.deleteById(id);}

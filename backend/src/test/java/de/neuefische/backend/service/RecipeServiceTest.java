@@ -66,11 +66,11 @@ class RecipeServiceTest {
     void updateRecipeShouldReturnUpdatedRecipe() {
         //GIVEN
         String id = "1";
-        NewRecipe newRecipe = new NewRecipe("Test", "Test");
+        Recipe recipe = new Recipe("1","Test", "Test");
         Recipe expected = new Recipe("1", "Test", "Test");
         //WHEN
         when(recipeRepo.save(expected)).thenReturn(expected);
-        Recipe actual = recipeService.updateRecipe(id, newRecipe);
+        Recipe actual = recipeService.updateRecipe(id, recipe);
         //THEN
         verify(recipeRepo).save(expected);
         assertEquals(expected, actual);

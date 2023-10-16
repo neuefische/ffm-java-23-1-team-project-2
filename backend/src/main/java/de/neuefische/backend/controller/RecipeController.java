@@ -40,8 +40,8 @@ public class RecipeController {
         }
     }
     @PutMapping("{id}")
-    Recipe updateRecipe(@PathVariable String id, @RequestBody NewRecipe newRecipe) {
-        return recipeService.updateRecipe(id, newRecipe);
+    Recipe updateRecipe(@PathVariable String id, @RequestBody Recipe recipe) {
+        return recipeService.updateRecipe(id, recipe);
     }
 
     @DeleteMapping("{id}")

@@ -8,13 +8,16 @@ import EditRecipe from "./components/EditRecipe.tsx";
 
 
 
+
 export default function App() {
 
     const [recipes, setRecipes] = useState<Recipe[]>()
+    const [recipe , setRecipe] = useState<Recipe>()
     const uri: string = "/api/recipes"
     useEffect(() => {
         getAll()
     }, []);
+
 
     function getAll() {
         axios.get(uri)
@@ -35,10 +38,9 @@ export default function App() {
     return (
         <>
             <Routes>
-                <Route path="/" element={<RecipeGallery recipes={recipes} onDelete={deleteRecipe}/>}/>
-                {/*<Route path="/recipe/:id/edit" element={<EditRecipe recipes={}/>}/>*/}
+                <Route path="/" element={<RecipeGallery setRecipe={setRecipe} recipes={recipes} onDelete={deleteRecipe}/>}/>
                 <Route path="/recipes/add" element={<AddRecipe uri={uri} getAll={getAll}/>}/>
-                <Route path="/*" element={<RecipeGallery recipes={recipes} onDelete={deleteRecipe}/>}/>
+                <Route path="/recipes/:id/edit" element={<EditRecipe recipe={recipe}/>}/>
             </Routes>
         </>
     )

@@ -24,6 +24,11 @@ public class RecipeController {
         return recipeService.getAll();
     }
 
+    @GetMapping("{id}")
+    Recipe getRecipeById(@PathVariable String id) {
+        return recipeService.getRecipeById(id);
+    }
+
     @ResponseBody
     @PostMapping
     public ResponseEntity<Object> postRecipe(@RequestBody NewRecipe newRecipe) {
@@ -34,6 +39,11 @@ public class RecipeController {
             return ResponseEntity.badRequest().body("Du Pfeife musst was eingeben!");
         }
     }
+    @PutMapping("{id}")
+    Recipe updateRecipe(@PathVariable String id, @RequestBody NewRecipe newRecipe) {
+        return recipeService.updateRecipe(id, newRecipe);
+    }
+
     @DeleteMapping("{id}")
     void delete(@PathVariable String id){
         recipeService.delete(id);

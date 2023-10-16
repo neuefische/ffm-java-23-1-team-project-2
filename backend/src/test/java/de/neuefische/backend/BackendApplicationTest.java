@@ -1,5 +1,4 @@
 package de.neuefische.backend;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,9 +20,8 @@ class BackendApplicationTest {
     private TestRestTemplate restTemplate;
 
     @Test
-     void contextLoads() {
+    void backendApplicationLoads() {
         ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/api/recipes", String.class);
         response.getStatusCode();
     }
-
 }

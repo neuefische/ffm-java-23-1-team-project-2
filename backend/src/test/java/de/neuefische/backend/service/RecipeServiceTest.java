@@ -1,10 +1,10 @@
 package de.neuefische.backend.service;
+import de.neuefische.backend.model.NewRecipe;
 import de.neuefische.backend.model.Recipe;
 import de.neuefische.backend.repository.RecipeRepo;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -14,7 +14,6 @@ class RecipeServiceTest {
 
     RecipeRepo recipeRepo = mock(RecipeRepo.class);
     RecipeService recipeService = new RecipeService(recipeRepo);
-
 
     @Test
     void getAll() {
@@ -48,6 +47,35 @@ class RecipeServiceTest {
 
         assertEquals(expected, actual);
     }
+
+
+    @Test
+    void whenAddRecipeWithoutIdThenReturnRecipeWithId() {
+        //GIVEN
+        String id = "1";
+        Recipe expected = new Recipe("1", "Test", "Test");
+        //WHEN
+        when(recipeRepo.findById(id)).thenReturn(Optional.of(expected));
+        Recipe actual = recipeService.getRecipeById(id);
+        //THEN
+        verify(recipeRepo).findById(id);
+        assertEquals(expected, actual);
+
+    }
+    @Test
+    void updateRecipeShouldReturnUpdatedRecipe() {
+        //GIVEN
+        String id = "1";
+        NewRecipe newRecipe = new NewRecipe("Test", "Test");
+        Recipe expected = new Recipe("1", "Test", "Test");
+        //WHEN
+        when(recipeRepo.save(expected)).thenReturn(expected);
+        Recipe actual = recipeService.updateRecipe(id, newRecipe);
+        //THEN
+        verify(recipeRepo).save(expected);
+        assertEquals(expected, actual);
+    }
+
 
     @Test
     void deleteRecipeById() {
